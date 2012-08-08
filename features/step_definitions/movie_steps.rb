@@ -23,14 +23,24 @@ end
 #  "When I check the following ratings: G"
 
 When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
-  rating_list.split.each do |rating|
+  # HINT: use String#split to split up the rating_list, then
+  #   iterate over the ratings and reuse the "When I check..." or
+  #   "When I uncheck..." steps in lines 89-95 of web_steps.rb
+  rating_list.split(", ").each do |rating|
     if !uncheck then
       step %{I check "ratings_#{rating}"}
     else
       step %{I uncheck "ratings_#{rating}"}
     end
   end
-  # HINT: use String#split to split up the rating_list, then
-  #   iterate over the ratings and reuse the "When I check..." or
-  #   "When I uncheck..." steps in lines 89-95 of web_steps.rb
+end
+
+Then /I should (not )?see the following/ do |not_see, movies_table|
+  movies_table.hashes.each do |movie|
+    if !not_see then
+      step %{I should see "#{movie[:title]}"}
+    else
+      step %{I should not see "#{movie[:title]}"}
+    end
+  end
 end
