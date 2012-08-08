@@ -44,3 +44,9 @@ Then /I should (not )?see the following/ do |not_see, movies_table|
     end
   end
 end
+
+Then /I should see all movies/ do
+  assert page.should have_css("tbody#movielist tr", :count => 10)
+#assert page.find("#movielist").find("tr").count.should == 10
+end
+
